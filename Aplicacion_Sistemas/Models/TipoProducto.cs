@@ -15,7 +15,11 @@ namespace Proyecto_Sistemas.Models
             Producto = new HashSet<Producto>();
         }
 
+        [Key]
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(200)]
         public string Nombre { get; set; }
 
         public virtual ICollection<Producto> Producto { get; set; }

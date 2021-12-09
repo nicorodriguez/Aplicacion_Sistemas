@@ -63,7 +63,7 @@ namespace Proyecto_Sistemas.Models
                 entity.HasOne(d => d.TipoProducto)
                     .WithMany(p => p.Producto)
                     .HasForeignKey(d => d.TipoProductoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_TipoProducto_Producto");
             });
 
@@ -116,9 +116,31 @@ namespace Proyecto_Sistemas.Models
                 entity.HasOne(d => d.Rol)
                     .WithMany(p => p.Usuario)
                     .HasForeignKey(d => d.RolId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_RolUsuario");
             });
+
+            modelBuilder.Entity<TipoProducto>().HasData(
+                new TipoProducto() { Id = 1, Nombre = "Carnes" },
+                new TipoProducto() { Id = 2, Nombre = "Verduras" },
+                new TipoProducto() { Id = 3, Nombre = "Bebidas" },
+                new TipoProducto() { Id = 4, Nombre = "Electrodomésticos" },
+                new TipoProducto() { Id = 5, Nombre = "Golosinas" },
+                new TipoProducto() { Id = 6, Nombre = "Envasados" });
+
+            modelBuilder.Entity<Producto>().HasData(
+                new Producto() { Id = 1, Nombre = "Ventilador", Marca = "La Mejor", Precio = 10.500m, Cantidad = 10, TipoProductoId = 4 },
+                new Producto() { Id = 2, Nombre = "Gaseosa sabor Ginger Ale 1.5L", Marca = "Kunington", Precio = 80m, Cantidad = 30, TipoProductoId = 3 },
+                new Producto() { Id = 3, Nombre = "Gaseosa sabor Cola 1.5L", Marca = "Kunington", Precio = 85m, Cantidad = 90, TipoProductoId = 3 },
+                new Producto() { Id = 4, Nombre = "Papa blanca 1Kg", Marca = "Excelente", Precio = 40m, Cantidad = 20, TipoProductoId = 2 });
+
+            modelBuilder.Entity<Rol>().HasData(
+                new Rol() { Id = 1, Nombre = "Admin" },
+                new Rol() { Id = 2, Nombre = "Empleado" });
+
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario() { Id = 1, Nombre = "Carla", Apellido = "Saltirana", NombreDeUsuario = "carlasaltirana", RolId = 1},
+                new Usuario() { Id = 2, Nombre = "Jorge", Apellido = "Perez", NombreDeUsuario = "jorgeperez", RolId = 2});
 
             OnModelCreatingPartial(modelBuilder);
         }
