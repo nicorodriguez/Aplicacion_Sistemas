@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aplicacion_Sistemas.Validators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Proyecto_Sistemas.Models
+namespace Aplicacion_Sistemas.Models
 {
     public partial class Usuario
     {
@@ -26,6 +27,12 @@ namespace Proyecto_Sistemas.Models
         [MaxLength(200)]
         [Display(Name = "Nombre de Usuario")]
         public string NombreDeUsuario { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        [Display(Name = "Contrasena")]
+        [ContrasenaValidate(ErrorMessage = "Contrasena no valida")]
+        public string Contrasena { get; set; }
 
         [Required]
         [Display(Name = "Seleccionar Rol")]

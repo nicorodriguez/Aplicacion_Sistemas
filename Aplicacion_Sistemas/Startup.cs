@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Proyecto_Sistemas.Models;
+using Aplicacion_Sistemas.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +28,15 @@ namespace Aplicacion_Sistemas
             services.AddTransient<Proyecto_SistemasContext>();
 
             services.AddControllersWithViews();
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -54,7 +58,8 @@ namespace Aplicacion_Sistemas
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
+                //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

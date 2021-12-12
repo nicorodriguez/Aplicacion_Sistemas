@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Proyecto_Sistemas.Models;
+using Aplicacion_Sistemas.Models;
 
 namespace Aplicacion_Sistemas.Repositories
 {

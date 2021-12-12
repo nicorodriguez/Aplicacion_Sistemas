@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Proyecto_Sistemas.Models
+namespace Aplicacion_Sistemas.Models
 {
     public partial class Proyecto_SistemasContext : DbContext
     {
@@ -111,6 +111,11 @@ namespace Proyecto_Sistemas.Models
                     .HasColumnName("nombre_de_usuario")
                     .HasMaxLength(200);
 
+                entity.Property(e => e.Contrasena)
+                    .IsRequired()
+                    .HasColumnName("contrasena")
+                    .HasMaxLength(200);
+
                 entity.Property(e => e.RolId).HasColumnName("rol_id");
 
                 entity.HasOne(d => d.Rol)
@@ -139,8 +144,8 @@ namespace Proyecto_Sistemas.Models
                 new Rol() { Id = 2, Nombre = "Empleado" });
 
             modelBuilder.Entity<Usuario>().HasData(
-                new Usuario() { Id = 1, Nombre = "Carla", Apellido = "Saltirana", NombreDeUsuario = "carlasaltirana", RolId = 1},
-                new Usuario() { Id = 2, Nombre = "Jorge", Apellido = "Perez", NombreDeUsuario = "jorgeperez", RolId = 2});
+                new Usuario() { Id = 1, Nombre = "Carla", Apellido = "Saltirana", NombreDeUsuario = "carlasaltirana", Contrasena = "123456" , RolId = 1},
+                new Usuario() { Id = 2, Nombre = "Jorge", Apellido = "Perez", NombreDeUsuario = "jorgeperez", Contrasena = "empleado", RolId = 2});
 
             OnModelCreatingPartial(modelBuilder);
         }

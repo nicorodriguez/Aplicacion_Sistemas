@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Proyecto_Sistemas.Models;
+using Aplicacion_Sistemas.Models;
 
 namespace Aplicacion_Sistemas.Migrations
 {

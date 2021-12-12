@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Proyecto_Sistemas.Models;
+using Aplicacion_Sistemas.Models;
 
 namespace Aplicacion_Sistemas.Controllers
 {
