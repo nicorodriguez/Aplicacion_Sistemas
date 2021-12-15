@@ -31,7 +31,7 @@ namespace Aplicacion_Sistemas.Models
         [Required(ErrorMessage = "Contraseña es requerida")]
         [MaxLength(200)]
         [Display(Name = "Contraseña")]
-        [ContrasenaValidate(ErrorMessage = "Contraseña incorrecta")]
+        //[ContrasenaValidate(ErrorMessage = "Contraseña incorrecta")]
         public string Contrasena { get; set; }
 
         [Required]

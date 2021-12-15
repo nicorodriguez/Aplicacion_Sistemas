@@ -56,7 +56,7 @@ namespace Aplicacion_Sistemas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,NombreDeUsuario,RolId")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,NombreDeUsuario,Contrasena,RolId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Aplicacion_Sistemas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,NombreDeUsuario,RolId")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,NombreDeUsuario,Contrasena,RolId")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -146,8 +146,6 @@ namespace Aplicacion_Sistemas.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var usuario = await _context.Usuario.FindAsync(id);
-
-
             _context.Usuario.Remove(usuario);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

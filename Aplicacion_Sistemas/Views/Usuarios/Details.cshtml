@@ -1,10 +1,10 @@
 ﻿@model Aplicacion_Sistemas.Models.Usuario
 
 @{
-    ViewData["Title"] = "Detalle";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Detalle</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Usuario</h4>
@@ -27,6 +27,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NombreDeUsuario)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Contrasena)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Rol)
