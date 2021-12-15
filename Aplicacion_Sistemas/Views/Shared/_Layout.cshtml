@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @{
-    var vUser = Context.Session.GetString("_User");<!--Capturar la sesión en la variable vUser-->
+    var vUsuario = Context.Session.GetString("_Usuario");<!--Capturar la sesión en la variable vUser-->
+    var vRol = Context.Session.GetString("_Rol");<!--Capturar la sesión en la variable vUser-->
 }
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@
 </head>
 <body>
     <header>    
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background: linear-gradient(#4ca1af, #c4e0e5);">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Aplicacion_Sistemas</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,22 +24,30 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoProductoes" asp-action="Index">Tipos de Producto</a>
-                        </li>
+
+                        @if (!(string.IsNullOrEmpty(vUsuario) || string.IsNullOrEmpty(vRol)))
+                        {
+                            if (vRol == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <b><a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a></b>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <b><a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a></b>
+                            </li>
+
+                            <li class="nav-item">
+                                <b><a class="nav-link text-dark" asp-area="" asp-controller="TipoProductoes" asp-action="Index">Tipos de Producto</a></b>
+                            </li>
+                        }
+
                         <li class="nav-item ml-4 mr-2">
-                            <p class="item">Usuario: @vUser</p>
+                            <p class="item"><b>Usuario:</b> @vUsuario</p>
                         </li>
-                        <li class="nav-item">
+
+                        <li class="nav-item ml-2 mr-2">
                             @using (Html.BeginForm("LogOff", "Login", FormMethod.Post, new { id = "logoutForm", @class = "form-css" }))
                             {
                                 <a class="navbar-brand" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-fw fa-power-off"></i> Cerrar Sesión</a>
@@ -49,8 +58,9 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" >
             @RenderBody()
         </main>
     </div>
@@ -60,6 +70,7 @@
             &copy; 2021 - Aplicacion_Sistemas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

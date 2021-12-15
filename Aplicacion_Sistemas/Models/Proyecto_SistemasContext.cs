@@ -56,7 +56,7 @@ namespace Aplicacion_Sistemas.Models
 
                 entity.Property(e => e.Precio)
                     .HasColumnName("precio")
-                    .HasColumnType("decimal(6, 2)");
+                    .HasColumnType("decimal(11,2)");
 
                 entity.Property(e => e.TipoProductoId).HasColumnName("tipo_producto_id");
 
@@ -118,6 +118,9 @@ namespace Aplicacion_Sistemas.Models
 
                 entity.Property(e => e.RolId).HasColumnName("rol_id");
 
+                entity.HasIndex(u => u.NombreDeUsuario)
+                      .IsUnique();
+
                 entity.HasOne(d => d.Rol)
                     .WithMany(p => p.Usuario)
                     .HasForeignKey(d => d.RolId)
@@ -134,10 +137,10 @@ namespace Aplicacion_Sistemas.Models
                 new TipoProducto() { Id = 6, Nombre = "Envasados" });
 
             modelBuilder.Entity<Producto>().HasData(
-                new Producto() { Id = 1, Nombre = "Ventilador", Marca = "La Mejor", Precio = 10.500m, Cantidad = 10, TipoProductoId = 4 },
-                new Producto() { Id = 2, Nombre = "Gaseosa sabor Ginger Ale 1.5L", Marca = "Kunington", Precio = 80m, Cantidad = 30, TipoProductoId = 3 },
-                new Producto() { Id = 3, Nombre = "Gaseosa sabor Cola 1.5L", Marca = "Kunington", Precio = 85m, Cantidad = 90, TipoProductoId = 3 },
-                new Producto() { Id = 4, Nombre = "Papa blanca 1Kg", Marca = "Excelente", Precio = 40m, Cantidad = 20, TipoProductoId = 2 });
+                new Producto() { Id = 1, Nombre = "Ventilador", Marca = "La Mejor", Precio = 10000.50, Cantidad = 10, TipoProductoId = 4 },
+                new Producto() { Id = 2, Nombre = "Gaseosa sabor Ginger Ale 1.5L", Marca = "Kunington", Precio = 80.00, Cantidad = 30, TipoProductoId = 3 },
+                new Producto() { Id = 3, Nombre = "Gaseosa sabor Cola 1.5L", Marca = "Kunington", Precio = 85, Cantidad = 90, TipoProductoId = 3 },
+                new Producto() { Id = 4, Nombre = "Papa blanca 1Kg", Marca = "Excelente", Precio = 40, Cantidad = 20, TipoProductoId = 2 });
 
             modelBuilder.Entity<Rol>().HasData(
                 new Rol() { Id = 1, Nombre = "Admin" },

@@ -23,7 +23,8 @@ namespace Aplicacion_Sistemas.Models
         public string Marca { get; set; }
 
         [Required]
-        public decimal Precio { get; set; }
+        [Column(TypeName = "decimal(11, 2)")]
+        public double Precio { get; set; }
 
         [Required]
         public int Cantidad { get; set; }

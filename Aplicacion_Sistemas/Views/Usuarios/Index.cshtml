@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Aplicacion_Sistemas.Models.Usuario>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<Aplicacion_Sistemas.Models.Usuario>
 
 @{
     ViewData["Title"] = "Usuarios";
+    var vUsuario = Context.Session.GetString("_Usuario");<!--Capturar la sesión en la variable vUser-->
 }
 
 <h1>Listado de Usuarios</h1>
@@ -31,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -48,9 +50,12 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                @if(item.NombreDeUsuario != vUsuario)
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                }
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

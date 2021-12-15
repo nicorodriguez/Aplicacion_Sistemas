@@ -12,6 +12,13 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
     padding: 0.5rem 1rem;
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    color: #133770;
 }
 
 /* Provide sufficient contrast against white background */

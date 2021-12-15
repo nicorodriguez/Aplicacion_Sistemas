@@ -23,15 +23,15 @@ namespace Aplicacion_Sistemas.Models
         [MaxLength(200)]
         public string Apellido { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nombre de Usuario es requerido")]
         [MaxLength(200)]
         [Display(Name = "Nombre de Usuario")]
         public string NombreDeUsuario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Contraseña es requerida")]
         [MaxLength(200)]
-        [Display(Name = "Contrasena")]
-        [ContrasenaValidate(ErrorMessage = "Contrasena no valida")]
+        [Display(Name = "Contraseña")]
+        [ContrasenaValidate(ErrorMessage = "Contraseña incorrecta")]
         public string Contrasena { get; set; }
 
         [Required]

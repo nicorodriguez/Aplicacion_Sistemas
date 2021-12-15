@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Aplicacion_Sistemas.Repositories;
+using Aplicacion_Sistemas.Services;
+using System.Globalization;
 
 namespace Aplicacion_Sistemas
 {
@@ -25,6 +28,10 @@ namespace Aplicacion_Sistemas
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUsuariosRepository, UsuariosRepository>();
+            services.AddTransient<IUsuariosService, UsuariosService>();
+            services.AddTransient<UsuariosService>();
+            services.AddTransient<UsuariosRepository>();
             services.AddTransient<Proyecto_SistemasContext>();
 
             services.AddControllersWithViews();
@@ -59,7 +66,6 @@ namespace Aplicacion_Sistemas
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Login}/{id?}");
-                //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

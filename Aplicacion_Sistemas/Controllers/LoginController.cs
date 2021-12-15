@@ -7,15 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Aplicacion_Sistemas.Services;
+using System.Threading.Tasks;
 
 namespace Aplicacion_Sistemas.Controllers
 {
     public class LoginController : Controller
     {
-        /// <summary>
-        /// Constante para Inicializar la Sesión _User
-        /// </summary>
-        const string SessionUser = "_User";
+        const string SessionUser = "_Usuario";
+        const string SessionRol = "_Rol";
+        private readonly UsuariosService _usuariosService;
 
         public IConfiguration Configuration { get; }
 
@@ -23,98 +24,58 @@ namespace Aplicacion_Sistemas.Controllers
         /// Interfaz para acceder a los valores del archivo de configuración
         /// </summary>
         /// <param name="configuration"></param>
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration, UsuariosService usuarioService)
         {
             Configuration = configuration;
+            _usuariosService = usuarioService;
         }
 
         /// <summary>
-
         /// Action para inicializar la carga de la vista del Login en base a los atributos de modelo usuario
-
         /// </summary>
-
         /// <returns></returns>
-
         public ActionResult Login()
-
         {
-
-            //ViewBag.ReturnUrl = returnUrl;
-
             return View(new Usuario());
-
         }
 
 
 
         /// <summary>
-
         /// Action de tipo POST para  para inicializar el proceso de validación e iniciar sesión en  base a los datos del modelo
-
         /// </summary>
-
         /// <param name="model"></param>
-
         /// <returns></returns>
-
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Login(Usuario model)
+        public async Task<ActionResult> Login(Usuario model)
         {
-            //Conexión a la base de datos
-            string connectionString = Configuration["ConnectionStrings:ProjectContext"];
-
-            //Estoy usando uso de ADO.Net para interactuar con la base de datos
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (string.IsNullOrEmpty(model.NombreDeUsuario) || string.IsNullOrEmpty(model.Contrasena))
             {
-                var list_users = new List<Usuario>();
-
-                //Validar los controladores
-                if (model.NombreDeUsuario == null || model.NombreDeUsuario.Equals("") || model.Contrasena == null || model.Contrasena.Equals(""))
-                {
-                    ModelState.AddModelError("", "Ingresar los datos solicitados");
-                }
-                else
-                {
-                    connection.Open();//Abrir la conexión a la base de datos
-
-                    SqlCommand com = new SqlCommand("GET_USUARIO", connection);//Referencia al procedimiento almacenado
-
-                    com.CommandType = CommandType.StoredProcedure;//Se define el tipo de comando a utilizar
-
-                    //Paso los parámetros de acuerdo a los datos cargados segun el modelo usario
-
-                    com.Parameters.AddWithValue("@usuario", model.NombreDeUsuario);
-                    com.Parameters.AddWithValue("@contrasena", model.Contrasena);
-
-                    SqlDataReader dr = com.ExecuteReader();//Ejecuto el comando a través de un DataReader
-                    //Recorro los datos y adiciono en la lista list_users los valores usuario y contrasena
-
-                    while (dr.Read())
-                    {
-                        Usuario usuario = new Usuario();
-
-                        usuario.NombreDeUsuario = Convert.ToString(dr["nombre_de_usuario"]);
-                        usuario.Contrasena = Convert.ToString(dr["contrasena"]);
-
-                        list_users.Add(usuario);
-                    }
-
-                    //Match entre los valores ingresados y la lista
-                    if (list_users.Any(p => p.NombreDeUsuario == model.NombreDeUsuario && p.Contrasena == model.Contrasena))
-                    {
-                        HttpContext.Session.SetString(SessionUser, model.NombreDeUsuario); //Iniciamos la sesión pasando el valor (nombre del usuario)
-
-                        return RedirectToAction("Index", "Home"); //Redireccionar a la vista inicial
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Datos ingresado no válido.");//Error personalizado
-                    }
-                }
+                ModelState.AddModelError("", "Datos faltantes");//Error personalizado
                 return View(model);
             }
+
+            var result = await _usuariosService.FindByNombreDeUsuario(model.NombreDeUsuario, model.Contrasena);
+
+            //Match entre los valores ingresados y la lista
+            if (result == null)
+            {
+                ModelState.AddModelError("", "Datos ingresados incorrectos");//Error personalizado
+            }
+            else if(result.NombreDeUsuario == model.NombreDeUsuario && result.Contrasena == model.Contrasena)
+            {
+                HttpContext.Session.SetString(SessionUser, result.NombreDeUsuario); //Iniciamos la sesión pasando el valor (nombre del usuario)
+                HttpContext.Session.SetString(SessionRol, result.Rol.Nombre); //Iniciamos la sesión pasando el valor (nombre del usuario)
+
+                return RedirectToAction("Index", "Home"); //Redireccionar a la vista inicial
+            }
+            else
+            {
+                ModelState.AddModelError("", "Datos ingresados incorrectos");//Error personalizado
+            }
+
+            return View(model);
         }
 
 
